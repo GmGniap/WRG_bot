@@ -2,7 +2,7 @@
 #define BRAKE 0
 #define CW    1
 #define CCW   2
-#define CS_THRESHOLD 15   // Definition of safety current (Check: "1.3 Monster Shield Example").
+//#define CS_THRESHOLD 15   // Definition of safety current (Check: "1.3 Monster Shield Example").
 
 //MOTOR 1
 #define MOTOR_A1_PIN 6
@@ -14,11 +14,23 @@
 #define MOTOR_B2_PIN 13
 #define PWM_MOTOR_2 15
 
+//MOTOR 3
+#define MOTOR_A3_PIN 11
+#define MOTOR_B3_PIN 11
+#define PWM_MOTOR_3 11
+
+//MOTOR 4
+#define MOTOR_A4_PIN 11
+#define MOTOR_B4_PIN 11
+#define PWM_MOTOR_4 11
+
 //#define EN_PIN_1 30
 #define MOTOR_1 0
 #define MOTOR_2 1
+#define MOTOR_3 2
+#define MOTOR_4 3
 
-short usSpeed = 255;  //default motor speed
+short usSpeed = 200;  //default motor speed
 unsigned short usMotor_Status = BRAKE;
  
 void setup()                         
@@ -31,6 +43,16 @@ void setup()
   pinMode(MOTOR_A2_PIN, OUTPUT);
   pinMode(MOTOR_B2_PIN, OUTPUT);
   pinMode(PWM_MOTOR_2, OUTPUT);
+  
+  //Motor 3 Pinout
+  pinMode(MOTOR_A3_PIN, OUTPUT);
+  pinMode(MOTOR_B3_PIN, OUTPUT);
+  pinMode(PWM_MOTOR_3, OUTPUT);
+  
+  //Motor 4 Pinout
+  pinMode(MOTOR_A4_PIN, OUTPUT);
+  pinMode(MOTOR_B4_PIN, OUTPUT);
+  pinMode(PWM_MOTOR_4, OUTPUT);
   
   Serial.begin(9600);              // Initiates the serial to do the monitoring 
   Serial.println("Begin motor control");
@@ -91,6 +113,8 @@ void Stop()
   usMotor_Status = BRAKE;
   motorGo(MOTOR_1, usMotor_Status, 0);
   motorGo(MOTOR_2, usMotor_Status, 0);
+  motorGo(MOTOR_3, usMotor_Status, 0);
+  motorGo(MOTOR_4, usMotor_Status, 0);
 }
 
 void Forward()
@@ -99,6 +123,8 @@ void Forward()
   usMotor_Status = CW;
   motorGo(MOTOR_1, usMotor_Status, usSpeed);
   motorGo(MOTOR_2, usMotor_Status, usSpeed);
+  motorGo(MOTOR_3, usMotor_Status, usSpeed);
+  motorGo(MOTOR_4, usMotor_Status, usSpeed);
 }
 
 void Reverse()
@@ -107,6 +133,8 @@ void Reverse()
   usMotor_Status = CCW;
   motorGo(MOTOR_1, usMotor_Status, usSpeed);
   motorGo(MOTOR_2, usMotor_Status, usSpeed);
+  motorGo(MOTOR_3, usMotor_Status, usSpeed);
+  motorGo(MOTOR_4, usMotor_Status, usSpeed);
 }
 
 void IncreaseSpeed()
@@ -122,6 +150,8 @@ void IncreaseSpeed()
 
   motorGo(MOTOR_1, usMotor_Status, usSpeed);
   motorGo(MOTOR_2, usMotor_Status, usSpeed);
+  motorGo(MOTOR_3, usMotor_Status, usSpeed);
+  motorGo(MOTOR_4, usMotor_Status, usSpeed);
 }
 
 void DecreaseSpeed()
@@ -137,6 +167,8 @@ void DecreaseSpeed()
 
   motorGo(MOTOR_1, usMotor_Status, usSpeed);
   motorGo(MOTOR_2, usMotor_Status, usSpeed);
+  motorGo(MOTOR_3, usMotor_Status, usSpeed);
+  motorGo(MOTOR_4, usMotor_Status, usSpeed);
 }
 
 void motorGo(uint8_t motor, uint8_t direct, uint8_t pwm)         //Function that controls the variables: motor(0 ou 1), direction (cw ou ccw) e pwm (entra 0 e 255);
@@ -181,6 +213,44 @@ void motorGo(uint8_t motor, uint8_t direct, uint8_t pwm)         //Function that
     
     analogWrite(PWM_MOTOR_2, pwm); 
   }
+  else if(motor == MOTOR_3)
+  {
+    if(direct == CW)
+    {
+      digitalWrite(MOTOR_A3_PIN, LOW); 
+      digitalWrite(MOTOR_B3_PIN, HIGH);
+    }
+    else if(direct == CCW)
+    {
+      digitalWrite(MOTOR_A3_PIN, HIGH);
+      digitalWrite(MOTOR_B3_PIN, LOW);      
+    }
+    else
+    {
+      digitalWrite(MOTOR_A3_PIN, LOW);
+      digitalWrite(MOTOR_B3_PIN, LOW);            
+    }
+    
+    analogWrite(PWM_MOTOR_3, pwm); 
+  }
+  else if(motor == MOTOR_4)
+  {
+    if(direct == CW)
+    {
+      digitalWrite(MOTOR_A4_PIN, LOW); 
+      digitalWrite(MOTOR_B4_PIN, HIGH);
+    }
+    else if(direct == CCW)
+    {
+      digitalWrite(MOTOR_A4_PIN, HIGH);
+      digitalWrite(MOTOR_B4_PIN, LOW);      
+    }
+    else
+    {
+      digitalWrite(MOTOR_A4_PIN, LOW);
+      digitalWrite(MOTOR_B4_PIN, LOW);            
+    }
+    
+    analogWrite(PWM_MOTOR_4, pwm); 
+  }
 }
-
-
