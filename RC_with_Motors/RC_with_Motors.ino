@@ -17,8 +17,8 @@
 */
 //RC channel Pins
 int ch1 =13;
-int ch2 =14;
-int ch3 =15;
+int ch2 =15;
+int ch3 =14;
 int ch4 =24;
 
 //Averaging
@@ -101,7 +101,7 @@ void loop() {
   Serial.print(average_ch1);
   Serial.print(" | ");
   Serial.print(" AVG RC2: ");
-  Serial.print(average_ch2);
+  Serial.println(average_ch2);
   /*Serial.print(" | ");
   Serial.print(" AVG RC3: ");
   Serial.print(average_ch3);
